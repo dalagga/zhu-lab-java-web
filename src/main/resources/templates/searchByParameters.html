@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home page</title>
+  <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:insert="~{header :: header}"></header>
+<div class="user-card">
+  <h1 class="form-title">Пошук за параметрами</h1>
+  <form th:action="@{/}" method="get">
+    <input type="number" class="input-field" placeholder="Вік" name="age">
+    <input type="text" class="input-field" placeholder="Місто" name="city">
+    <button type="submit" class="button-6">Пошук</button>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:insert="~{header :: header}"></header>
+<div class="user-card">
+    <h1 class="user-name" th:text="${user.name}"></h1>
+    <p class="text-20-black-center" th:text="'ID: ' + ${user.id}"></p>
+    <form th:action="@{'/users/' + ${user.id}}" method="post">
+        <label>
+            <input type="text" th:value="${user.name}" class="input-field" placeholder="Ім'я" name="name" required>
+        </label>
+        <label>
+            <input type="number" th:value="${user.age}" class="input-field" placeholder="Вік" name="age" required>
+        </label>
+        <label>
+            <input type="text" th:value="${user.city}" class="input-field" placeholder="Місато" name="city" required>
+        </label>
+        <label>
+            <input type="email" th:value="${user.email}" class="input-field" placeholder="E-mail" name="email" required>
+        </label>
+        <label>
+            <input type="text" th:attr="value=${#strings.replace(user.favWaifu, '[', '').replace(']', '')}"
+                   class="input-field" placeholder="Улюблені вайфу (розділені комою)" name="favWaifu" required>
+        </label>
+        <div style="text-align: center">
+            <button type="submit" class="button-6">Застосувати</button>
+            <a th:href="'/users/' + ${user.id}" class="button-6">Скасувати</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

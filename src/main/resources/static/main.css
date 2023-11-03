@@ -1,0 +1,189 @@
+body, h1, h2, h3, h4, h5, h6  {
+    font-family: "Trebuchet MS", Tahoma, sans-serif;
+}
+
+
+body{
+    font-size: 20px;
+    color: black;
+    background-color: #eeeeee;
+    padding: 20px;
+}
+
+.user-card {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 0 0 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 50%;
+    margin: 0 auto 20px;
+}
+
+.user-name {
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap; /* Забезпечити, що текст не обрізається і не переноситься на новий рядок */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Додати мітку "..." для довгих ідентифікаторів */
+}
+
+.text-20-black-center{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+
+.user-age-title{
+    font-size: 20px;
+    color: #666;
+}
+
+/* unvisited link */
+a:link {
+    color: #352f44;
+}
+
+/* visited link */
+a:visited {
+    color: #2a2438;
+}
+
+/* mouse over link */
+a:hover {
+    color: #5c5470;
+}
+
+/* selected link */
+a:active {
+    color: #393e46;
+}
+
+.centered-horizontally {
+    display: block;
+    margin: 0 auto;
+}
+
+
+.button-6 {
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 10px 10px 10px 10px;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.button-6:hover,
+.button-6:focus {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.button-6:hover {
+    transform: translateY(-1px);
+}
+
+.button-6:active {
+    background-color: #F0F0F1;
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+    color: rgba(0, 0, 0, 0.65);
+    transform: translateY(0);
+}
+
+/* Стиль для заголовка форми */
+.form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333; /* Колір тексту */
+}
+
+.form-title-2{
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Стиль для полів вводу */
+.input-field {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.button-del{
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 10px 10px 10px 10px;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.button-del:hover,
+.button-del:focus {
+    font-size: 16px;
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: rgba(255, 0, 16, 0.3);
+    color: rgb(0, 0, 0, 0.65);
+}
+
+.button-del:hover {
+    transform: translateY(-1px);
+}
+
+.button-del:active {
+    background-color: rgba(255, 0, 16, 0.5);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+    color: rgba(0, 0, 0, 0.65);
+    transform: translateY(0);
+}

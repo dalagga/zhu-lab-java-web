@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:insert="~{header :: header}"></header>
+<div th:each="user : ${users}" class="user-card">
+    <h1 class="user-info">
+        <span class="user-name" th:text="${user.name} + ', '"></span>
+        <span class="user-age-title" th:text="${user.age} + ' yo'"></span>
+    </h1>
+    <p class="text-20-black-center" th:text="${user.email}"></p>
+    <a th:href="@{'/users/' + ${user.id}}">Повна інформація</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${user.name}"></title>
+  <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:insert="~{header :: header}"></header>
+<div class="user-card">
+  <h1 class="user-name" th:text="${user.name}"></h1>
+  <p class="text-20-black-center" th:text="'ID: ' + ${user.id}"></p>
+  <p class="text-20-black-center" th:text="'Вік: ' + ${user.age}"></p>
+  <a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a>
+  <p class="text-20-black-center" th:text="'Місто: ' + ${user.city}"></p>
+  <p class="text-20-black-center">Улюблені вайфу:
+    <span th:each="waifu, iterStat : ${user.favWaifu}"><span th:text="${waifu}"></span><span th:unless="${iterStat.last}">, </span></span></p>
+  <div style="text-align: center">
+    <a th:href="'/edituser/' + ${user.id}" class="button-6">Редагувати</a>
+    <a th:href="'/deleteuser/' + ${user.id}" class="button-del">Видалити</a>
+  </div>
+</div>
+</body>
+</html>
