@@ -1,50 +1,27 @@
 package com.example.webjavaserver.controller;
 
 import com.example.webjavaserver.model.User;
+import com.example.webjavaserver.model.Waifu;
+import com.example.webjavaserver.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
+@RequiredArgsConstructor
 public class ThymeleafStyleController {
-    List<User> users = new ArrayList<>(List.of(
-            User.builder()
-                    .id(1)
-                    .name("Роман Шиян")
-                    .age(22)
-                    .city("Запоріжжя")
-                    .email("roman@gmail.com")
-                    .favWaifu(List.of("Місато Кацураґі", "Ріцуко Акаґі"))
-                    .build(),
-            User.builder()
-                    .id(2)
-                    .name("Ґендо Ікарі")
-                    .age(48)
-                    .city("Токіо-3")
-                    .email("gendoikari@gmail.com")
-                    .favWaifu(List.of("Адам", "Юй Ікарі"))
-                    .build(),
-            User.builder()
-                    .id(3)
-                    .name("Шінджі Ікарі")
-                    .age(22)
-                    .city("Токіо-3")
-                    .email("shinikari@gmail.com")
-                    .favWaifu(List.of("Пен-Пен"))
-                    .build()
-    ));
+    private final UserRepository userRepository;
 
     @GetMapping("/")
     public ModelAndView showUsersByParam(@RequestParam (value = "age", required = false) Integer age,
                               @RequestParam (value = "city", required = false) String city) {
-        var filteredUsers = users.stream()
-                .filter(user -> age == null || user.getAge().equals(age))
-                .filter(user -> city == null || city.isEmpty() || user.getCity().equals(city))
-                .toList();
+        var filteredUsers = userRepository.findWithParam(age, city);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         modelAndView.addObject("users", filteredUsers);
@@ -53,15 +30,74 @@ public class ThymeleafStyleController {
 
     @GetMapping("/users/{id}")
     public ModelAndView getUserById(@PathVariable Integer id){
-        User userSearch = users.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        var userSearch = userRepository.findById(id).orElse(null);
+        if (userSearch == null) {
+            return new ModelAndView("redirect:/");
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("fullUserInfo");
         modelAndView.addObject("user", userSearch);
         return modelAndView;
     }
+
+    @GetMapping("/edituser/{id}")
+    public ModelAndView editUser(@PathVariable Integer id){
+        var userSearch = userRepository.findById(id).orElse(null);
+        assert userSearch != null;
+        List<String> userWaifu = userSearch.getFavWaifu().stream()
+                .map(Waifu::getName)
+                .toList();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("editUser");
+        modelAndView.addObject("user", userSearch);
+        modelAndView.addObject("waifu", userWaifu);
+        return modelAndView;
+    }
+
+    @GetMapping("/deleteuser/{id}")
+    public ModelAndView deleteUser(@PathVariable Integer id){
+        userRepository.deleteById(id);
+        return new ModelAndView("redirect:/");
+    }
+
+    @PostMapping("/users/{id}")
+    public ModelAndView editUser(@PathVariable Integer id, @RequestParam Map<String, String> formData){
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return new ModelAndView("redirect:/");
+        }
+        user.setName(formData.get("name"));
+        user.setAge(Integer.parseInt(formData.get("age")));
+        user.setCity(formData.get("city"));
+        user.setEmail(formData.get("email"));
+        user.getFavWaifu().clear();
+        List<Waifu> waifus = Arrays.stream(formData.get("favWaifu").split(","))
+                .map(String::trim)
+                .map(waifuName -> new Waifu(null, waifuName, user))
+                .toList();
+        user.getFavWaifu().addAll(waifus);
+        userRepository.save(user);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/users/{id}");
+        return modelAndView;
+    }
+
+@PostMapping("/users")
+public ModelAndView addUser(@RequestParam Map<String, String> formData){
+    User user = User.builder()
+            .name(formData.get("name"))
+            .age(Integer.parseInt(formData.get("age")))
+            .city(formData.get("city"))
+            .email(formData.get("email"))
+            .build();
+    List<Waifu> waifus = Arrays.stream(formData.get("favWaifu").split(","))
+            .map(String::trim)
+            .map(waifuName -> new Waifu(null, waifuName, user))
+            .collect(Collectors.toList());
+    user.setFavWaifu(waifus);
+    userRepository.save(user);
+    return new ModelAndView("redirect:/");
+}
 
     @GetMapping("/createuser")
     public ModelAndView createUser(){
@@ -76,64 +112,4 @@ public class ThymeleafStyleController {
         modelAndView.setViewName("searchByParameters");
         return modelAndView;
     }
-
-    public User findUserById(Integer id){
-        return users.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @GetMapping("/edituser/{id}")
-    public ModelAndView editUser(@PathVariable Integer id){
-        var userSearch = findUserById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("editUser");
-        modelAndView.addObject("user", userSearch);
-        return modelAndView;
-    }
-
-    @GetMapping("/deleteuser/{id}")
-    public ModelAndView deleteUser(@PathVariable Integer id){
-        var userSearch = findUserById(id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/");
-        users.remove(userSearch);
-        //modelAndView.addObject("user", userSearch);
-        return modelAndView;
-    }
-
-    @PostMapping("/users/{id}")
-    public ModelAndView editUser(@PathVariable Integer id, User user){
-        var searchUser = findUserById(id);
-        searchUser.setName(user.getName());
-        searchUser.setAge(user.getAge());
-        searchUser.setCity(user.getCity());
-        searchUser.setEmail(user.getEmail());
-        List<String> favWaifuList = user.getFavWaifu();
-        List<String> favWaifuSplit = favWaifuList.stream()
-                .flatMap(s -> Arrays.stream(s.split(",")))
-                .toList();
-        searchUser.setFavWaifu(favWaifuSplit);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/users/{id}");
-        System.out.println(searchUser);
-        return modelAndView;
-    }
-
-    @PostMapping("/users")
-    public ModelAndView addUser(User user){
-        System.out.println(user);
-        var generateId = users.stream()
-                .mapToInt(User::getId)
-                .max()
-                .orElse(0);
-        user.setId(generateId + 1);
-        users.add(user);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/");
-        System.out.println(user);
-        return modelAndView;
-    }
-
 }

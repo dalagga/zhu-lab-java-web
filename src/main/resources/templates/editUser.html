@@ -24,7 +24,7 @@
             <input type="email" th:value="${user.email}" class="input-field" placeholder="E-mail" name="email" required>
         </label>
         <label>
-            <input type="text" th:attr="value=${#strings.replace(user.favWaifu, '[', '').replace(']', '')}"
+            <input type="text" th:attr="value=${#strings.replace(waifu, '[', '').replace(']', '')}"
                    class="input-field" placeholder="Улюблені вайфу (розділені комою)" name="favWaifu" required>
         </label>
         <div style="text-align: center">

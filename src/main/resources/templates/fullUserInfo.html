@@ -14,7 +14,9 @@
   <a th:href="'mailto:' + ${user.email}" th:text="${user.email}"></a>
   <p class="text-20-black-center" th:text="'Місто: ' + ${user.city}"></p>
   <p class="text-20-black-center">Улюблені вайфу:
-    <span th:each="waifu, iterStat : ${user.favWaifu}"><span th:text="${waifu}"></span><span th:unless="${iterStat.last}">, </span></span></p>
+    <span th:each="waifu, iterStat : ${user.favWaifu}"><span th:text="${waifu.name}"></span><span th:unless="${iterStat.last}">, </span></span></p>
+
+
   <div style="text-align: center">
     <a th:href="'/edituser/' + ${user.id}" class="button-6">Редагувати</a>
     <a th:href="'/deleteuser/' + ${user.id}" class="button-del">Видалити</a>

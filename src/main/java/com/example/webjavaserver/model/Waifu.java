@@ -1,24 +1,22 @@
 package com.example.webjavaserver.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Builder
 @Data // getters, setters, hashcode, equals, toString
 @NoArgsConstructor // empty constructor
 @AllArgsConstructor // all fields constructor
 @Entity // JPA
-@Table(name = "users") // JPA
-public class User {
+@Table(name = "waifu") // JPA
+public class Waifu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private Integer age;
-    private String city;
-    private String email;
-    @OneToMany(mappedBy = "ofUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Waifu> favWaifu;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User ofUser;
 }
