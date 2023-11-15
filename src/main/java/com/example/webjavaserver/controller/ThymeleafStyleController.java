@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 public class ThymeleafStyleController {
+    // suggestion 1 (important!): As we now have a service layer, we can reuse it here to avoid code duplication
+    // the idea behind service layer is to have a single place where we can put all the business logic
+    // and then reuse it in different controllers/other services/websockets/etc.
     private final UserRepository userRepository;
 
     @GetMapping("/")
