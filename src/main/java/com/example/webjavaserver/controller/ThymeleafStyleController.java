@@ -11,6 +11,9 @@ import java.util.List;
 
 @Controller
 public class ThymeleafStyleController {
+    //suggestion 2: add error handling. it's possible to modify html on client side to prevent
+    // validation and send invalid data to server (e.g. send string instead of integer)
+    // it leads to generic 400 error page
     List<User> users = new ArrayList<>(List.of(
             User.builder()
                     .id(1)
@@ -39,7 +42,8 @@ public class ThymeleafStyleController {
     ));
 
     @GetMapping("/")
-    public ModelAndView showUsersByParam(@RequestParam (value = "age", required = false) Integer age,
+    public ModelAndView showUsersByParam(
+            @RequestParam (value = "age", required = false) Integer age,
                               @RequestParam (value = "city", required = false) String city) {
         var filteredUsers = users.stream()
                 .filter(user -> age == null || user.getAge().equals(age))
@@ -128,6 +132,7 @@ public class ThymeleafStyleController {
                 .mapToInt(User::getId)
                 .max()
                 .orElse(0);
+        // suggestion 1: use atomics for id generation to prevent race conditions
         user.setId(generateId + 1);
         users.add(user);
         ModelAndView modelAndView = new ModelAndView();
