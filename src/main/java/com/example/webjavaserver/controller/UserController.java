@@ -29,6 +29,11 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Integer id) {
         var resp = userService.findUserById(id);
+        // suggestion 2 (not db layer related):
+        // if we return optional, we can do something like this:
+        // return resp.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        // it makes sense here to return optionals to let client know that it's possible that there is no user with such id
+        // same for other methods
         if (resp == null) {
             return ResponseEntity.notFound().build();
         } else {
